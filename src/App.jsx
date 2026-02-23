@@ -324,7 +324,7 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
     return (
         <nav
             style={style}
-            className={`pointer-events-auto flex w-full items-center justify-between transition-all duration-700 rounded-[2.5rem] border ${className} ${isHero ? `max-w-[1400px] ${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'} py-4 px-6 md:px-12` : 'max-w-[1000px] bg-white/40 backdrop-blur-[60px] saturate-[200%] border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.15),inset_0_2px_2px_rgba(255,255,255,1),inset_0_-1px_2px_rgba(0,0,0,0.05)] py-3 px-6 md:px-8'}`}
+            className={`pointer-events-auto flex w-full items-center justify-between transition-all duration-700 rounded-[2.5rem] border ${className} ${isHero ? `${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'}` : 'bg-white/40 backdrop-blur-[60px] saturate-[200%] border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.15),inset_0_2px_2px_rgba(255,255,255,1),inset_0_-1px_2px_rgba(0,0,0,0.05)]'} max-w-[1400px] py-4 px-6 md:px-12`}
         >
             <div className="flex items-center gap-4 relative z-20 shrink-0">
                 <a href="#" className="transform transition-transform duration-300 hover:scale-110 block">
@@ -386,7 +386,7 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
 
 function SmartNavbar() {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [clipTop, setClipTop] = useState(100); // Percentage or px? Let's use px.
+    const [clipTop, setClipTop] = useState({ start: 2000, end: 3000 });
 
     useEffect(() => {
         const updateClip = () => {
@@ -427,10 +427,17 @@ function SmartNavbar() {
         ? 'inset(0% 0% 0% 0%)'
         : `polygon(0 ${clipTop.start}px, 100% ${clipTop.start}px, 100% ${clipTop.end}px, 0 ${clipTop.end}px)`;
 
+    const darkClipPath = menuOpen
+        ? 'polygon(0 0, 0 0, 0 0, 0 0)' // Hide when menu open
+        : `polygon(0 0, 100% 0, 100% ${clipTop.start}px, 0 ${clipTop.start}px, 0 ${clipTop.end}px, 100% ${clipTop.end}px, 100% 100%, 0 100%)`;
+
     return (
-        <div className="nav-entrance fixed top-0 w-full z-50 flex flex-col items-center pt-4 md:pt-6 px-4 transition-all duration-700 pointer-events-none">
-            {/* Layer 1: Dark/Hero Theme (Always there, but behind) */}
-            <div className="absolute inset-0 w-full flex flex-col items-center pt-4 md:pt-6 px-4 pointer-events-none z-40">
+        <div className="nav-entrance fixed top-0 w-full h-full z-50 flex flex-col items-center pt-4 md:pt-6 px-4 transition-all duration-700 pointer-events-none">
+            {/* Layer 1: Dark/Hero Theme (Clipped to show only where Light is NOT) */}
+            <div
+                className="absolute inset-0 w-full flex flex-col items-center pt-4 md:pt-6 px-4 pointer-events-none z-40"
+                style={{ clipPath: darkClipPath }}
+            >
                 <Navbar
                     theme="dark"
                     menuOpen={menuOpen}
