@@ -474,14 +474,14 @@ function SmartNavbar() {
             </div>
 
 
-            {/* Mobile Menu Dropdown (Glassmorphism applied here too) */}
-            <div className={`pointer-events-auto md:hidden overflow-hidden transition-all duration-500 ease-in-out w-full max-w-[1000px] mt-2 rounded-3xl relative ${menuOpen ? 'apple-glass-regular max-h-[400px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0 shadow-none ring-0 border-transparent'}`}>
+            {/* Mobile Menu Dropdown (Solid/Opaque for perfect legibility, pushed down to avoid overlapping header) */}
+            <div className={`pointer-events-auto md:hidden overflow-hidden transition-all duration-500 ease-in-out w-full max-w-[1000px] mt-[4.5rem] rounded-[2rem] bg-cream/95 backdrop-blur-3xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] ring-1 ring-black/5 relative ${menuOpen ? 'max-h-[500px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0 shadow-none ring-0 border-transparent'}`}>
                 <div className="flex flex-col items-center gap-6 font-serif text-2xl relative z-10">
                     <a href="#" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Home</a>
                     <a href="#about" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">About</a>
                     <a href="#feed" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Instagram</a>
                     <a href="#board" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Board</a>
-                    <a href="#contact" onClick={() => setMenuOpen(false)} className="inline-block mt-2 px-8 py-3 apple-glass-thin rounded-[2rem] text-ink-black text-lg hover:bg-white/50 transition-all">Contact Us</a>
+                    <a href="#contact" onClick={() => setMenuOpen(false)} className="inline-block mt-2 px-8 py-3 bg-white border border-ink-black/10 shadow-sm rounded-[2rem] text-ink-black text-lg hover:shadow-md transition-all">Contact Us</a>
                 </div>
             </div>
         </div>
