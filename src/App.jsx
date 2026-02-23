@@ -327,7 +327,7 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
             <nav
                 ref={navRef}
                 style={style}
-                className={`pointer-events-auto flex w-full items-center justify-between transition-all duration-700 rounded-[2.5rem] ${className} ${isHero ? `border ${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'}` : isLightOpen ? 'bg-cream border shadow-lg ring-1 ring-black/5' : 'apple-glass-regular'} py-4 px-6 md:px-12 relative overflow-hidden`}
+                className={`pointer-events-auto flex w-full items-center justify-between transition duration-700 rounded-[2.5rem] ${className} ${isHero ? `border ${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'}` : isLightOpen ? 'bg-cream border shadow-lg ring-1 ring-black/5' : 'apple-glass-regular'} py-4 px-6 md:px-12 relative overflow-hidden`}
             >
                 <div className="flex items-center gap-4 relative z-20 shrink-0">
                     <a href="#" className="transform transition-transform duration-300 hover:scale-110 block">
