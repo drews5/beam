@@ -314,7 +314,7 @@ function WordScroller() {
 
 // ————— COMPONENTS ————— //
 
-function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menuOpen }) {
+function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menuOpen, navRef }) {
     // theme "dark" = Transparent/Hero style (White text)
     // theme "light" = White Glass style (Black text)
 
@@ -323,6 +323,7 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
 
     return (
         <nav
+            ref={navRef}
             style={style}
             className={`pointer-events-auto flex w-full items-center justify-between transition-all duration-700 rounded-[2.5rem] ${className} ${isHero ? `border ${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'}` : 'apple-glass-regular'} max-w-[1400px] py-4 px-6 md:px-12 relative overflow-hidden`}
         >
@@ -387,24 +388,27 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
 function SmartNavbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [clipTop, setClipTop] = useState({ start: 2000, end: 3000 });
+    const navRef = useRef(null);
 
     useEffect(() => {
         const updateClip = () => {
             const aboutSection = document.getElementById('about');
             const footerSection = document.querySelector('footer');
+            const navNode = navRef.current;
 
             if (!aboutSection) return;
 
             const aboutRect = aboutSection.getBoundingClientRect();
             const footerRect = footerSection ? footerSection.getBoundingClientRect() : null;
 
-            // The nav is at the top. We want to show the "Light" nav (z-50) 
-            // only where it's over the "Light" sections (About to just before Footer).
+            let start = aboutRect.top;
+            let end = footerRect ? footerRect.top : window.innerHeight * 2;
 
-            // top of clipping is basically where the About section starts
-            const start = Math.max(0, aboutRect.top);
-            // bottom of clipping is where the Footer starts (Dark again)
-            const end = footerRect ? Math.max(0, footerRect.top) : window.innerHeight * 2;
+            if (navNode) {
+                const navRect = navNode.getBoundingClientRect();
+                start = aboutRect.top - navRect.top;
+                end = footerRect ? footerRect.top - navRect.top : 9999;
+            }
 
             setClipTop({ start, end });
         };
@@ -434,28 +438,23 @@ function SmartNavbar() {
     return (
         <div className="nav-entrance fixed top-0 w-full h-full z-50 flex flex-col items-center pt-4 md:pt-6 px-4 transition-all duration-700 pointer-events-none">
             {/* Layer 1: Dark/Hero Theme (Clipped to show only where Light is NOT) */}
-            <div
-                className="absolute inset-0 w-full flex flex-col items-center pt-4 md:pt-6 px-4 pointer-events-none z-40"
-                style={{ clipPath: darkClipPath }}
-            >
+            <div className="absolute inset-0 w-full flex flex-col items-center pt-4 md:pt-6 px-4 pointer-events-none">
                 <Navbar
                     theme="dark"
                     menuOpen={menuOpen}
                     onMenuToggle={() => setMenuOpen(!menuOpen)}
+                    style={{ clipPath: darkClipPath }}
                 />
             </div>
 
             {/* Layer 2: Light/Scrolled Theme (Clipped to show only over white areas) */}
-            <div
-                className="absolute inset-0 w-full flex flex-col items-center pt-4 md:pt-6 px-4 pointer-events-none transition-none z-50"
-                style={{
-                    clipPath: lightClipPath
-                }}
-            >
+            <div className="absolute inset-0 w-full flex flex-col items-center pt-4 md:pt-6 px-4 pointer-events-none transition-none">
                 <Navbar
                     theme="light"
                     menuOpen={menuOpen}
                     onMenuToggle={() => setMenuOpen(!menuOpen)}
+                    style={{ clipPath: lightClipPath }}
+                    navRef={navRef}
                 />
             </div>
 
