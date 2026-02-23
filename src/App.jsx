@@ -387,53 +387,69 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
 
 function SmartNavbar() {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [clipTop, setClipTop] = useState({ start: 2000, end: 3000 });
-    const navRef = useRef(null);
+    const navLightRef = useRef(null);
+    const navDarkRef = useRef(null);
 
     useEffect(() => {
+        let ticking = false;
+
         const updateClip = () => {
             const aboutSection = document.getElementById('about');
             const footerSection = document.querySelector('footer');
-            const navNode = navRef.current;
+            const navLight = navLightRef.current;
+            const navDark = navDarkRef.current;
 
-            if (!aboutSection) return;
+            if (!aboutSection || !navLight || !navDark) {
+                ticking = false;
+                return;
+            }
 
             const aboutRect = aboutSection.getBoundingClientRect();
             const footerRect = footerSection ? footerSection.getBoundingClientRect() : null;
+            const navRect = navLight.getBoundingClientRect();
 
-            let start = aboutRect.top;
-            let end = footerRect ? footerRect.top : window.innerHeight * 2;
+            let start = aboutRect.top - navRect.top;
+            let end = footerRect ? footerRect.top - navRect.top : 9999;
 
-            if (navNode) {
-                const navRect = navNode.getBoundingClientRect();
-                start = aboutRect.top - navRect.top;
-                end = footerRect ? footerRect.top - navRect.top : 9999;
-            }
+            navLight.style.clipPath = `polygon(0 ${start}px, 100% ${start}px, 100% ${end}px, 0 ${end}px)`;
+            navDark.style.clipPath = `polygon(0 0, 100% 0, 100% ${start}px, 0 ${start}px, 0 ${end}px, 100% ${end}px, 100% 100%, 0 100%)`;
 
-            setClipTop({ start, end });
+            ticking = false;
         };
 
-        window.addEventListener('scroll', updateClip);
-        window.addEventListener('resize', updateClip);
-        updateClip(); // Initial check
+        const onScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateClip);
+                ticking = true;
+            }
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+
+        // Initial clip update
+        window.requestAnimationFrame(updateClip);
 
         return () => {
-            window.removeEventListener('scroll', updateClip);
-            window.removeEventListener('resize', updateClip);
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
         };
     }, []);
 
-    // If menu is open, we just show the light theme fully for simplicity and usability
-    // We use a polygon that covers the portion of the viewport where light-themed content exists.
-    // Since Layer 2 is absolute inset-0 within a fixed-to-top container, 
-    // clipping Layer 2 to these coordinates will correctly reveal/hide it over the background.
-    const lightClipPath = menuOpen
-        ? 'inset(0% 0% 0% 0%)'
-        : `polygon(0 ${clipTop.start}px, 100% ${clipTop.start}px, 100% ${clipTop.end}px, 0 ${clipTop.end}px)`;
+    // Menu Open overrides
+    useEffect(() => {
+        const navLight = navLightRef.current;
+        const navDark = navDarkRef.current;
+        if (!navLight || !navDark) return;
 
-    const darkClipPath = menuOpen
-        ? 'polygon(0 0, 0 0, 0 0, 0 0)' // Hide when menu open
-        : `polygon(0 0, 100% 0, 100% ${clipTop.start}px, 0 ${clipTop.start}px, 0 ${clipTop.end}px, 100% ${clipTop.end}px, 100% 100%, 0 100%)`;
+        if (menuOpen) {
+            navLight.style.clipPath = 'inset(0% 0% 0% 0%)';
+            navDark.style.clipPath = 'polygon(0 0, 0 0, 0 0, 0 0)';
+        } else {
+            // Force a scroll update to restore standard clip-path based on current scroll
+            window.dispatchEvent(new Event('scroll'));
+        }
+    }, [menuOpen]);
 
     return (
         <div className="nav-entrance fixed top-0 w-full h-full z-50 flex flex-col items-center pt-4 md:pt-6 px-4 transition-all duration-700 pointer-events-none">
