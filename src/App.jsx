@@ -319,69 +319,72 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
     // theme "light" = White Glass style (Black text)
 
     const isHero = theme === "dark" && !menuOpen;
+    const isLightOpen = theme === "light" && menuOpen;
     const showBackground = theme === "light" || menuOpen;
 
     return (
-        <nav
-            ref={navRef}
-            style={style}
-            className={`pointer-events-auto flex w-full items-center justify-between transition duration-700 rounded-[2.5rem] ${className} ${isHero ? `border ${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'}` : 'apple-glass-regular'} max-w-[1400px] py-4 px-6 md:px-12 relative overflow-hidden`}
-        >
-            <div className="flex items-center gap-4 relative z-20 shrink-0">
-                <a href="#" className="transform transition-transform duration-300 hover:scale-110 block">
-                    <div
-                        className="h-8 md:h-9 w-24 md:w-28 relative overflow-hidden"
-                        style={{
-                            maskImage: 'url(/logo-dark.svg)',
-                            maskSize: 'contain',
-                            maskRepeat: 'no-repeat',
-                            maskPosition: 'center',
-                            WebkitMaskImage: 'url(/logo-dark.svg)',
-                            WebkitMaskSize: 'contain',
-                            WebkitMaskRepeat: 'no-repeat',
-                            WebkitMaskPosition: 'center',
-                        }}
-                    >
-                        {isHero ? (
-                            <div className="absolute inset-0 bg-white"></div>
-                        ) : (
-                            <>
-                                <div className="absolute inset-0 bg-[#1a0b2e]"></div>
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-riso-purple via-[#1a0b2e] to-black scale-150"></div>
-                                <div className="absolute inset-0 opacity-100">
-                                    <StarField count={40} maxScale={0.3} color="bg-white" />
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </a>
-            </div>
+        <div className="w-full max-w-[1400px] pointer-events-none relative transition-colors duration-500">
+            <nav
+                ref={navRef}
+                style={style}
+                className={`pointer-events-auto flex w-full items-center justify-between transition-all duration-700 rounded-[2.5rem] ${className} ${isHero ? `border ${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'}` : isLightOpen ? 'bg-cream border shadow-lg ring-1 ring-black/5' : 'apple-glass-regular'} py-4 px-6 md:px-12 relative overflow-hidden`}
+            >
+                <div className="flex items-center gap-4 relative z-20 shrink-0">
+                    <a href="#" className="transform transition-transform duration-300 hover:scale-110 block">
+                        <div
+                            className="h-8 md:h-9 w-24 md:w-28 relative overflow-hidden"
+                            style={{
+                                maskImage: 'url(/logo-dark.svg)',
+                                maskSize: 'contain',
+                                maskRepeat: 'no-repeat',
+                                maskPosition: 'center',
+                                WebkitMaskImage: 'url(/logo-dark.svg)',
+                                WebkitMaskSize: 'contain',
+                                WebkitMaskRepeat: 'no-repeat',
+                                WebkitMaskPosition: 'center',
+                            }}
+                        >
+                            {isHero ? (
+                                <div className="absolute inset-0 bg-white"></div>
+                            ) : (
+                                <>
+                                    <div className="absolute inset-0 bg-[#1a0b2e]"></div>
+                                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-riso-purple via-[#1a0b2e] to-black scale-150"></div>
+                                    <div className="absolute inset-0 opacity-100">
+                                        <StarField count={40} maxScale={0.3} color="bg-white" />
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </a>
+                </div>
 
-            <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-6 lg:gap-12 font-serif text-lg lg:text-xl tracking-wide w-auto justify-center">
-                <a href="#" className="group relative">
-                    <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Home</span>
-                </a>
-                <a href="#about" className="group relative">
-                    <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>About</span>
-                </a>
-                <a href="#feed" className="group relative">
-                    <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Instagram</span>
-                </a>
-                <a href="#board" className="group relative">
-                    <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Board</span>
-                </a>
-            </div>
+                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-6 lg:gap-12 font-serif text-lg lg:text-xl tracking-wide w-auto justify-center">
+                    <a href="#" className="group relative">
+                        <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Home</span>
+                    </a>
+                    <a href="#about" className="group relative">
+                        <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>About</span>
+                    </a>
+                    <a href="#feed" className="group relative">
+                        <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Instagram</span>
+                    </a>
+                    <a href="#board" className="group relative">
+                        <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Board</span>
+                    </a>
+                </div>
 
-            <div className="relative z-20 hidden md:block shrink-0">
-                <a href="#contact" className={`group relative inline-flex items-center justify-center px-7 py-2.5 overflow-hidden transition-all duration-500 font-serif text-lg rounded-[2rem] hover:-translate-y-0.5 ${isHero ? 'border border-white/40 bg-white/10 text-white hover:bg-white hover:text-ink-black backdrop-blur-md' : 'apple-glass-thin text-ink-black hover:bg-white/50 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]'}`}>
-                    <span className="relative z-10 transition-colors duration-300">Contact</span>
-                </a>
-            </div>
+                <div className="relative z-20 hidden md:block shrink-0">
+                    <a href="#contact" className={`group relative inline-flex items-center justify-center px-7 py-2.5 overflow-hidden transition-all duration-500 font-serif text-lg rounded-[2rem] hover:-translate-y-0.5 ${isHero ? 'border border-white/40 bg-white/10 text-white hover:bg-white hover:text-ink-black backdrop-blur-md' : 'apple-glass-thin text-ink-black hover:bg-white/50 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]'}`}>
+                        <span className="relative z-10 transition-colors duration-300">Contact</span>
+                    </a>
+                </div>
 
-            <button className={`md:hidden relative z-20 p-2 transition-colors ${isHero ? 'text-white' : 'text-ink-black/80 hover:text-ink-black'}`} onClick={onMenuToggle}>
-                {menuOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-        </nav>
+                <button className={`md:hidden relative z-20 p-2 transition-colors ${isHero ? 'text-white' : 'text-ink-black/80 hover:text-ink-black'}`} onClick={onMenuToggle}>
+                    {menuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+            </nav>
+        </div>
     );
 }
 
@@ -452,9 +455,9 @@ function SmartNavbar() {
     }, [menuOpen]);
 
     return (
-        <div className="nav-entrance fixed top-0 w-full h-full z-50 flex flex-col items-center pt-4 md:pt-6 px-4 transition-all duration-700 pointer-events-none">
+        <div className="nav-entrance fixed top-0 w-full h-full z-50 flex flex-col items-center pt-4 md:pt-6 px-4 md:px-12 lg:px-24 transition-all duration-700 pointer-events-none">
             {/* Layer 1: Dark/Hero Theme (Clipped to show only where Light is NOT) */}
-            <div className="absolute inset-0 w-full flex flex-col items-center pt-4 md:pt-6 px-4 pointer-events-none">
+            <div className="absolute inset-x-0 top-0 pt-4 md:pt-6 px-4 md:px-12 lg:px-24 w-full flex flex-col items-center pointer-events-none">
                 <Navbar
                     theme="dark"
                     menuOpen={menuOpen}
@@ -464,7 +467,7 @@ function SmartNavbar() {
             </div>
 
             {/* Layer 2: Light/Scrolled Theme (Clipped to show only over white areas) */}
-            <div className="absolute inset-0 w-full flex flex-col items-center pt-4 md:pt-6 px-4 pointer-events-none transition-none">
+            <div className="absolute inset-x-0 top-0 pt-4 md:pt-6 px-4 md:px-12 lg:px-24 w-full flex flex-col items-center pointer-events-none transition-none">
                 <Navbar
                     theme="light"
                     menuOpen={menuOpen}
@@ -475,8 +478,8 @@ function SmartNavbar() {
 
 
             {/* Mobile Menu Dropdown (Solid/Opaque for perfect legibility, pushed down to avoid overlapping header) */}
-            <div className={`pointer-events-auto md:hidden overflow-hidden transition-all duration-500 ease-in-out w-full max-w-[1000px] mt-[4.5rem] rounded-[2rem] bg-cream/95 backdrop-blur-3xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] ring-1 ring-black/5 relative ${menuOpen ? 'max-h-[500px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0 shadow-none ring-0 border-transparent'}`}>
-                <div className="flex flex-col items-center gap-6 font-serif text-2xl relative z-10">
+            <div className={`pointer-events-auto flex flex-col items-center md:hidden overflow-hidden transition-all duration-500 ease-in-out w-full max-w-[1400px] mt-[4.5rem] rounded-[2rem] bg-cream shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] ring-1 ring-black/5 relative ${menuOpen ? 'max-h-[500px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0 shadow-none ring-0 border-transparent'}`}>
+                <div className="flex flex-col items-center gap-6 font-serif text-2xl relative z-10 w-full px-8">
                     <a href="#" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Home</a>
                     <a href="#about" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">About</a>
                     <a href="#feed" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Instagram</a>
@@ -599,10 +602,10 @@ function InstagramFeed() {
     }, []);
 
     return (
-        <section id="feed" className="py-24 px-8 md:px-12 bg-cream-dark border-t-2 border-ink-black relative before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjRkRGQkY3Ij48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMjYsIDE2LCAyNCwgMC4wNSkiPjwvcmVjdD4KPC9zdmc+')]">
+        <section id="feed" className="py-16 md:py-24 px-4 md:px-12 bg-cream-dark border-t-2 border-ink-black relative before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjRkRGQkY3Ij48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMjYsIDE2LCAyNCwgMC4wNSkiPjwvcmVjdD4KPC9zdmc+')]">
             <div className="max-w-[1400px] mx-auto relative z-10">
-                <div className="feed-header flex flex-col md:flex-row md:justify-between md:items-end mb-12 border-b-2 border-ink-black pb-4 gap-6">
-                    <h2 className="font-serif text-5xl md:text-7xl">Instagram</h2>
+                <div className="feed-header flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 border-b-2 border-ink-black pb-4 gap-4 md:gap-6">
+                    <h2 className="font-serif text-4xl md:text-7xl text-center md:text-left">Instagram</h2>
                     <a href="https://instagram.com/beam.umn" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 bg-riso-purple text-cream px-8 py-3 rounded-full font-serif text-lg hover:bg-ink-black transition-colors shadow-[4px_4px_0_0_#1A1018] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_#1A1018]">
                         <Instagram size={20} /> follow @beam.umn
                     </a>
@@ -630,24 +633,24 @@ function InstagramFeed() {
 
 function About() {
     return (
-        <section id="about" className="py-32 md:py-48 px-8 md:px-12 relative overflow-hidden">
-            <div className="about-item absolute top-0 right-0 w-1/2 h-full bg-riso-gradient opacity-30 -z-10 clip-path-polygon"></div>
+        <section id="about" className="py-16 md:py-48 px-4 md:px-12 relative overflow-hidden">
+            <div className="about-item absolute top-0 right-0 w-full md:w-1/2 h-full bg-riso-gradient opacity-30 -z-10 clip-path-polygon"></div>
 
-            <div className="max-w-[1000px] mx-auto text-center md:text-left">
+            <div className="max-w-[1000px] mx-auto text-left">
 
-                <h2 className="about-item font-serif text-5xl md:text-7xl mb-12">Welcome to BEAM!</h2>
+                <h2 className="about-item font-serif text-4xl md:text-7xl mb-8 md:mb-12">Welcome to BEAM!</h2>
 
-                <p className="about-item font-body text-xl md:text-2xl text-ink-black/80 leading-relaxed mb-16 relative before:absolute before:-left-8 before:top-2 before:h-full before:w-1 before:bg-riso-purple/40 before:rounded-full">
+                <p className="about-item font-body text-lg md:text-2xl text-ink-black/80 leading-relaxed mb-12 md:mb-16 relative before:absolute before:-left-4 md:before:-left-8 before:top-1 md:before:top-2 before:h-full before:w-1 before:bg-riso-purple/40 before:rounded-full pl-4 md:pl-0">
                     The Business of Entertainment, Arts, and Music (BEAM) at the University of Minnesota was founded to bridge the gap between students and the industries that shape culture and creativity. Recognizing the growing intersection of business and the arts, this organization provides a space for students to explore career paths, gain industry knowledge, and build connections with professionals. Through events and hands-on experiences, BEAM prepares its members to navigate and contribute to the evolving world of entertainment, arts, and media.
                 </p>
 
-                <div className="about-card riso-card p-10 md:p-16 relative overflow-hidden bg-cream">
+                <div className="about-card riso-card p-6 md:p-16 relative overflow-hidden bg-cream">
                     {/* Halftone texture overlay */}
-                    <div className="absolute -top-10 -right-10 w-40 h-40 halftone-accent opacity-20 pointer-events-none rounded-full rotate-45"></div>
+                    <div className="absolute -top-10 -right-10 w-32 md:w-40 h-32 md:h-40 halftone-accent opacity-20 pointer-events-none rounded-full rotate-45"></div>
 
-                    <h3 className="font-serif italic text-4xl md:text-5xl mb-8 text-riso-purple relative z-10">Our Mission</h3>
+                    <h3 className="font-serif italic text-3xl md:text-5xl mb-6 md:mb-8 text-riso-purple relative z-10">Our Mission</h3>
 
-                    <p className="font-body text-xl md:text-2xl text-ink-black/80 leading-relaxed relative z-10">
+                    <p className="font-body text-base md:text-2xl text-ink-black/80 leading-relaxed relative z-10">
                         BEAM's mission as a student organization is to educate current students at the University of Minnesota on the different careers and opportunities that exist within the arts and entertainment industry. BEAM also intends to bring different events and connections in the fields of entertainment, arts, and culture to students involved with the club. BEAM's goal is to allow students the chance to expand their knowledge on the ever-changing world of business from the perspective of industries such as fine arts, music, film, television, theater, and sports.
                     </p>
                 </div>
@@ -698,10 +701,10 @@ function Leadership() {
     ];
 
     return (
-        <section id="board" className="py-24 px-8 md:px-12 bg-cream border-t-2 border-ink-black overflow-hidden">
+        <section id="board" className="py-16 md:py-24 px-4 md:px-12 bg-cream border-t-2 border-ink-black overflow-hidden">
             <div className="max-w-[1400px] mx-auto">
-                <div className="board-header flex justify-between items-end mb-16">
-                    <h2 className="font-serif text-5xl md:text-7xl">Meet the Board</h2>
+                <div className="board-header flex justify-between items-end mb-8 md:mb-16">
+                    <h2 className="font-serif text-4xl md:text-7xl">Meet the Board</h2>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -709,11 +712,11 @@ function Leadership() {
                         <button
                             key={i}
                             onClick={() => setSelectedMember(m)}
-                            className="board-card riso-card group flex flex-col p-8 text-left transition-all duration-300 hover:-translate-y-2 hover:bg-riso-purple/5"
+                            className="board-card riso-card group flex flex-col p-6 md:p-8 text-left transition-all duration-300 hover:-translate-y-2 hover:bg-riso-purple/5"
                         >
-                            <h3 className="font-serif text-3xl mb-2 group-hover:text-riso-purple transition-colors">{m.name}</h3>
-                            <p className="font-serif text-lg italic text-riso-purple/80">{m.role}</p>
-                            <div className="mt-8 flex items-center text-riso-purple font-serif text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                            <h3 className="font-serif text-2xl md:text-3xl mb-1 md:mb-2 group-hover:text-riso-purple transition-colors">{m.name}</h3>
+                            <p className="font-serif text-base md:text-lg italic text-riso-purple/80">{m.role}</p>
+                            <div className="mt-4 md:mt-8 flex items-center text-riso-purple font-serif text-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                                 <span>Read Bio</span>
                                 <ArrowUpRight size={18} className="ml-1" />
                             </div>
@@ -721,27 +724,26 @@ function Leadership() {
                     ))}
                 </div>
             </div>
-
             {/* Modal - only shown when a member is selected */}
             {selectedMember && (
                 <div
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-ink-black/60 backdrop-blur-md animate-in fade-in duration-300"
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-ink-black/60 backdrop-blur-md animate-in fade-in duration-300"
                     onClick={() => setSelectedMember(null)}
                 >
                     <div
-                        className="riso-card bg-cream max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 md:p-12 relative animate-in slide-in-from-bottom-8 duration-500"
+                        className="riso-card bg-cream max-w-2xl w-full max-h-[90vh] md:max-h-[85vh] overflow-y-auto p-6 md:p-12 relative animate-in slide-in-from-bottom-8 duration-500 rounded-[2rem] md:rounded-3xl"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button
                             onClick={() => setSelectedMember(null)}
-                            className="absolute top-6 right-6 p-2 hover:bg-riso-purple/10 rounded-full transition-colors"
+                            className="absolute top-4 md:top-6 right-4 md:right-6 p-2 hover:bg-riso-purple/10 rounded-full transition-colors"
                         >
-                            <X size={32} className="text-riso-purple" />
+                            <X size={24} className="md:w-8 md:h-8 text-riso-purple" />
                         </button>
 
-                        <div className="mb-8 border-b-2 border-riso-purple/20 pb-6">
-                            <h2 className="font-serif text-4xl md:text-5xl mb-2">{selectedMember.name}</h2>
-                            <p className="font-serif text-xl italic text-riso-purple">{selectedMember.role}</p>
+                        <div className="mb-6 md:mb-8 border-b-2 border-riso-purple/20 pb-4 md:pb-6 pr-8">
+                            <h2 className="font-serif text-3xl md:text-5xl mb-1 md:mb-2 leading-tight">{selectedMember.name}</h2>
+                            <p className="font-serif text-lg md:text-xl italic text-riso-purple">{selectedMember.role}</p>
                         </div>
 
                         <div className="mb-10">
@@ -783,28 +785,28 @@ function Leadership() {
 
 function Contact() {
     return (
-        <section id="contact" className="py-32 px-8 md:px-12 bg-cream-dark relative">
+        <section id="contact" className="py-20 md:py-32 px-4 md:px-12 bg-cream-dark relative">
             <div className="max-w-[1400px] mx-auto text-center">
-                <h2 className="font-serif text-5xl md:text-7xl mb-8">Get in Touch</h2>
-                <p className="font-body text-xl md:text-2xl text-ink-black/60 max-w-2xl mx-auto mb-16">
+                <h2 className="font-serif text-4xl md:text-7xl mb-6 md:mb-8">Get in Touch</h2>
+                <p className="font-body text-lg md:text-2xl text-ink-black/60 max-w-2xl mx-auto mb-12 md:mb-16">
                     Interested in learning more about the intersection of business and the arts? We'd love to hear from you.
                 </p>
 
-                <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
-                    <a href="mailto:beam@umn.edu" className="group flex flex-col items-center gap-4 p-8 riso-card bg-cream min-w-[300px] hover:-translate-y-2 transition-transform duration-300">
-                        <div className="w-16 h-16 bg-riso-purple/10 rounded-full flex items-center justify-center text-riso-purple group-hover:bg-riso-purple group-hover:text-cream transition-colors duration-300">
-                            <Mail size={32} />
+                <div className="flex flex-col md:flex-row justify-center items-stretch md:items-center gap-6 md:gap-16">
+                    <a href="mailto:beam@umn.edu" className="group flex flex-col items-center gap-3 md:gap-4 p-6 md:p-8 riso-card bg-cream min-w-[280px] hover:-translate-y-2 transition-transform duration-300">
+                        <div className="w-14 md:w-16 h-14 md:h-16 bg-riso-purple/10 rounded-full flex items-center justify-center text-riso-purple group-hover:bg-riso-purple group-hover:text-cream transition-colors duration-300">
+                            <Mail size={28} className="md:w-8 md:h-8" />
                         </div>
-                        <h3 className="font-serif text-2xl">Email Us</h3>
-                        <p className="font-body text-riso-purple font-medium">beam@umn.edu</p>
+                        <h3 className="font-serif text-xl md:text-2xl">Email Us</h3>
+                        <p className="font-body text-base md:text-lg text-riso-purple font-medium">beam@umn.edu</p>
                     </a>
 
-                    <a href="https://instagram.com/beam.umn" target="_blank" rel="noreferrer" className="group flex flex-col items-center gap-4 p-8 riso-card bg-cream min-w-[300px] hover:-translate-y-2 transition-transform duration-300">
-                        <div className="w-16 h-16 bg-riso-purple/10 rounded-full flex items-center justify-center text-riso-purple group-hover:bg-riso-purple group-hover:text-cream transition-colors duration-300">
-                            <Instagram size={32} />
+                    <a href="https://instagram.com/beam.umn" target="_blank" rel="noreferrer" className="group flex flex-col items-center gap-3 md:gap-4 p-6 md:p-8 riso-card bg-cream min-w-[280px] hover:-translate-y-2 transition-transform duration-300">
+                        <div className="w-14 md:w-16 h-14 md:h-16 bg-riso-purple/10 rounded-full flex items-center justify-center text-riso-purple group-hover:bg-riso-purple group-hover:text-cream transition-colors duration-300">
+                            <Instagram size={28} className="md:w-8 md:h-8" />
                         </div>
-                        <h3 className="font-serif text-2xl">Follow Us</h3>
-                        <p className="font-body text-riso-purple font-medium">@beam.umn</p>
+                        <h3 className="font-serif text-xl md:text-2xl">Follow Us</h3>
+                        <p className="font-body text-base md:text-lg text-riso-purple font-medium">@beam.umn</p>
                     </a>
                 </div>
             </div>
