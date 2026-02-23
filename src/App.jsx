@@ -324,8 +324,11 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
     return (
         <nav
             style={style}
-            className={`pointer-events-auto flex w-full items-center justify-between transition-all duration-700 rounded-[2.5rem] border ${className} ${isHero ? `${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'}` : 'bg-white/40 backdrop-blur-[60px] saturate-[200%] border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.15),inset_0_2px_2px_rgba(255,255,255,1),inset_0_-1px_2px_rgba(0,0,0,0.05)]'} max-w-[1400px] py-4 px-6 md:px-12`}
+            className={`pointer-events-auto flex w-full items-center justify-between transition-all duration-700 rounded-[2.5rem] border ${className} ${isHero ? `${showBackground ? 'bg-white/10 backdrop-blur-md border-white/20' : 'bg-transparent border-transparent'}` : 'bg-white/70 backdrop-blur-2xl saturate-[150%] border-white shadow-[0_8px_32px_rgba(0,0,0,0.08),scale(1)] ring-1 ring-black/5 align-middle'} max-w-[1400px] py-4 px-6 md:px-12 relative overflow-hidden`}
         >
+            {/* Specular Highlight for Apple Glass Effect */}
+            {!isHero && <div className="absolute inset-0 rounded-[2.5rem] pointer-events-none border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)]"></div>}
+
             <div className="flex items-center gap-4 relative z-20 shrink-0">
                 <a href="#" className="transform transition-transform duration-300 hover:scale-110 block">
                     <div
@@ -372,7 +375,7 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
             </div>
 
             <div className="relative z-20 hidden md:block shrink-0">
-                <a href="#contact" className={`group relative inline-flex items-center justify-center px-7 py-2.5 overflow-hidden border transition-all duration-500 font-serif text-lg rounded-[2rem] hover:-translate-y-0.5 ${isHero ? 'border-white/40 bg-white/10 text-white hover:bg-white hover:text-ink-black backdrop-blur-md' : 'border-white/80 bg-white/60 text-ink-black backdrop-blur-xl shadow-[0_2px_12px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,1)] hover:bg-white/90 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)]'}`}>
+                <a href="#contact" className={`group relative inline-flex items-center justify-center px-7 py-2.5 overflow-hidden border transition-all duration-500 font-serif text-lg rounded-[2rem] hover:-translate-y-0.5 ${isHero ? 'border-white/40 bg-white/10 text-white hover:bg-white hover:text-ink-black backdrop-blur-md' : 'border-black/5 bg-white/40 text-ink-black backdrop-blur-md shadow-[0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:bg-white/80 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)]'}`}>
                     <span className="relative z-10 transition-colors duration-300">Contact</span>
                 </a>
             </div>
@@ -460,14 +463,17 @@ function SmartNavbar() {
             </div>
 
 
-            {/* Mobile Menu Dropdown (Clipped to light theme usually, or just its own thing) */}
-            <div className={`pointer-events-auto md:hidden overflow-hidden transition-all duration-500 ease-in-out w-full max-w-[1000px] mt-2 bg-white/40 backdrop-blur-[60px] saturate-[200%] border border-white/80 shadow-[0_16px_40px_-8px_rgba(0,0,0,0.15),inset_0_2px_2px_rgba(255,255,255,1)] rounded-3xl ${menuOpen ? 'max-h-[400px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0 border-transparent shadow-none'}`}>
-                <div className="flex flex-col items-center gap-6 font-serif text-2xl">
-                    <a href="#" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Home</a>
-                    <a href="#about" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">About</a>
-                    <a href="#feed" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Instagram</a>
-                    <a href="#board" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Board</a>
-                    <a href="#contact" onClick={() => setMenuOpen(false)} className="inline-block mt-2 px-8 py-3 bg-white/60 border border-white/80 shadow-sm rounded-[2rem] text-ink-black text-lg hover:bg-white transition-all">Contact Us</a>
+            {/* Mobile Menu Dropdown (Glassmorphism applied here too) */}
+            <div className={`pointer-events-auto md:hidden overflow-hidden transition-all duration-500 ease-in-out w-full max-w-[1000px] mt-2 bg-white/70 backdrop-blur-2xl saturate-[150%] border border-white shadow-[0_16px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/5 rounded-3xl relative ${menuOpen ? 'max-h-[400px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0 border-transparent shadow-none ring-0'}`}>
+                {/* Specular Highlight */}
+                {menuOpen && <div className="absolute inset-0 rounded-3xl pointer-events-none border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)]"></div>}
+
+                <div className="flex flex-col items-center gap-6 font-serif text-2xl relative z-10">
+                    <a href="#" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-viso-purple transition-colors">Home</a>
+                    <a href="#about" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-viso-purple transition-colors">About</a>
+                    <a href="#feed" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-viso-purple transition-colors">Instagram</a>
+                    <a href="#board" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-viso-purple transition-colors">Board</a>
+                    <a href="#contact" onClick={() => setMenuOpen(false)} className="inline-block mt-2 px-8 py-3 bg-white/40 backdrop-blur-md border border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_1px_rgba(255,255,255,0.9)] rounded-[2rem] text-ink-black text-lg hover:bg-white/80 transition-all">Contact Us</a>
                 </div>
             </div>
         </div>
