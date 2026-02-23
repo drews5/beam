@@ -770,12 +770,12 @@ function Contact() {
                 </p>
 
                 <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
-                    <a href="mailto:hello@beamumn.org" className="group flex flex-col items-center gap-4 p-8 riso-card bg-cream min-w-[300px] hover:-translate-y-2 transition-transform duration-300">
+                    <a href="mailto:beam@umn.edu" className="group flex flex-col items-center gap-4 p-8 riso-card bg-cream min-w-[300px] hover:-translate-y-2 transition-transform duration-300">
                         <div className="w-16 h-16 bg-riso-purple/10 rounded-full flex items-center justify-center text-riso-purple group-hover:bg-riso-purple group-hover:text-cream transition-colors duration-300">
                             <Mail size={32} />
                         </div>
                         <h3 className="font-serif text-2xl">Email Us</h3>
-                        <p className="font-body text-riso-purple font-medium">hello@beamumn.org</p>
+                        <p className="font-body text-riso-purple font-medium">beam@umn.edu</p>
                     </a>
 
                     <a href="https://instagram.com/beam.umn" target="_blank" rel="noreferrer" className="group flex flex-col items-center gap-4 p-8 riso-card bg-cream min-w-[300px] hover:-translate-y-2 transition-transform duration-300">
