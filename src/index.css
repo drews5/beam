@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-cream text-ink-black font-serif overflow-x-hidden;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    p {
+        @apply font-body;
+    }
+}
+
+/* ————— REFINED TEXTURES ————— */
+.paper-texture {
+    position: relative;
+}
+
+.paper-texture::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0.08;
+    /* Very subtle now */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ————— TYPOGRAPHY & LAYOUT ————— */
+.hero-title {
+    @apply font-black tracking-tighter leading-[0.85];
+    font-size: clamp(4rem, 12vw, 9rem);
+}
+
+.text-stroke {
+    -webkit-text-stroke: 1px #1A1018;
+    color: transparent;
+}
+
+.drop-cap::first-letter {
+    @apply float-left text-7xl font-black italic mr-3 leading-[0.8] text-riso-purple;
+}
+
+/* ————— INTERACTIVE ————— */
+.btn-beam {
+    @apply relative inline-flex items-center px-8 py-4 bg-ink-black text-cream font-serif italic text-lg transition-all duration-300;
+}
+
+.btn-beam:hover {
+    @apply bg-riso-purple -translate-y-1;
+    box-shadow: 0 10px 20px -10px rgba(142, 103, 181, 0.5);
+}
+
+.reveal-wrap {
+    @apply opacity-0 translate-y-8 transition-all duration-1000 ease-out;
+}
+
+.reveal-wrap.is-visible {
+    @apply opacity-100 translate-y-0;
+}
+
+/* ————— IMAGERY ————— */
+.image-reveal {
+    @apply overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-700 aspect-[4/5];
+}
+
+.image-reveal img {
+    @apply w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[1.5s];
+}
+
+/* ————— ACCENTS ————— */
+.bg-riso-gradient {
+    background: linear-gradient(135deg, #FDFBF7 0%, #F4F0EA 100%);
+}
+
+.halftone-accent {
+    background-image: radial-gradient(#8E67B5 1px, transparent 1px);
+    background-size: 8px 8px;
+    mask-image: linear-gradient(to bottom, black, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.riso-card {
+    border: 1px solid rgba(26, 16, 24, 0.15);
+    box-shadow: 6px 6px 0px 0px rgba(142, 103, 181, 0.2);
+    background: #FDFBF7;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.riso-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0px 0px rgba(142, 103, 181, 0.6);
+    border-color: rgba(142, 103, 181, 0.6);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
