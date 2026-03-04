@@ -3,10 +3,24 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Instagram, ArrowUpRight, ArrowRight, Mail, Menu, X } from 'lucide-react';
 import { supabase } from './supabaseClient';
+import { BrowserRouter as Router, Routes, Route, Link as RouterLink } from 'react-router-dom';
+import { events as eventData } from './data/events';
+import EventDetail from './pages/EventDetail';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/event/:eventId" element={<EventDetail />} />
+            </Routes>
+        </Router>
+    );
+}
+
+function HomePage() {
     const containerRef = useRef(null);
 
     useEffect(() => {
@@ -22,13 +36,13 @@ export default function App() {
             aboutTl.fromTo(".about-item", { opacity: 0, y: 40 }, { opacity: 1, y: 0, stagger: 0.15, duration: 1.2, ease: "power4.out" })
                 .fromTo(".about-card", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.4, ease: "power3.out" }, "-=1");
 
-            // Instagram / Feed section
-            gsap.from(".feed-header", {
-                scrollTrigger: { trigger: "#feed", start: "top 85%" },
+            // Events section
+            gsap.from(".events-header", {
+                scrollTrigger: { trigger: "#events", start: "top 85%" },
                 opacity: 0, y: 40, duration: 1.2, ease: "power4.out"
             });
-            gsap.from(".feed-item", {
-                scrollTrigger: { trigger: "#feed", start: "top 80%" },
+            gsap.from(".event-item", {
+                scrollTrigger: { trigger: "#events", start: "top 80%" },
                 opacity: 0, y: 30, stagger: 0.1, duration: 1, ease: "power3.out",
                 clearProps: "all"
             });
@@ -52,7 +66,7 @@ export default function App() {
             <SmartNavbar />
             <Hero />
             <About />
-            <InstagramFeed />
+            <EventsList />
             <Leadership />
             <Contact />
             <Footer />
@@ -366,8 +380,8 @@ function Navbar({ theme = "dark", style = {}, className = "", onMenuToggle, menu
                     <a href="#about" className="group relative">
                         <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>About</span>
                     </a>
-                    <a href="#feed" className="group relative">
-                        <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Instagram</span>
+                    <a href="#events" className="group relative">
+                        <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Events</span>
                     </a>
                     <a href="#board" className="group relative">
                         <span className={`transition-all duration-500 hover:text-riso-purple drop-shadow-sm ${isHero ? 'text-white hover:text-riso-purple' : 'text-ink-black/80 hover:text-ink-black'}`}>Board</span>
@@ -482,7 +496,7 @@ function SmartNavbar() {
                 <div className="flex flex-col items-center gap-6 font-serif text-2xl relative z-10 w-full px-8">
                     <a href="#" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Home</a>
                     <a href="#about" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">About</a>
-                    <a href="#feed" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Instagram</a>
+                    <a href="#events" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Events</a>
                     <a href="#board" onClick={() => setMenuOpen(false)} className="text-ink-black/80 hover:text-riso-purple transition-colors">Board</a>
                     <a href="#contact" onClick={() => setMenuOpen(false)} className="inline-block mt-2 px-8 py-3 bg-white border border-ink-black/10 shadow-sm rounded-[2rem] text-ink-black text-lg hover:shadow-md transition-all">Contact Us</a>
                 </div>
@@ -584,47 +598,47 @@ function Hero() {
     );
 }
 
-function InstagramFeed() {
-    const [feed, setFeed] = useState([]);
-
-    useEffect(() => {
-        fetch("https://feeds.behold.so/qt0p7IwGv9w7iKxyMGl5")
-            .then(res => res.json())
-            .then(data => {
-                // Behold specific integration based on user provided feed URL logic
-                if (data && Array.isArray(data)) {
-                    setFeed(data.slice(0, 4));
-                } else if (data && data.posts) {
-                    setFeed(data.posts.slice(0, 4));
-                }
-            })
-            .catch(err => console.error(err));
-    }, []);
-
+function EventsList() {
     return (
-        <section id="feed" className="py-16 md:py-24 px-4 md:px-12 bg-cream-dark border-t-2 border-ink-black relative before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjRkRGQkY3Ij48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMjYsIDE2LCAyNCwgMC4wNSkiPjwvcmVjdD4KPC9zdmc+')]">
+        <section id="events" className="py-16 md:py-24 px-4 md:px-12 bg-cream-dark border-t-2 border-ink-black relative before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjRkRGQkY3Ij48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMjYsIDE2LCAyNCwgMC4wNSkiPjwvcmVjdD4KPC9zdmc+')]">
             <div className="max-w-[1400px] mx-auto relative z-10">
-                <div className="feed-header flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 border-b-2 border-ink-black pb-4 gap-4 md:gap-6">
-                    <h2 className="font-serif text-4xl md:text-7xl text-center md:text-left">Instagram</h2>
-                    <a href="https://instagram.com/beam.umn" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 bg-riso-purple text-cream px-8 py-3 rounded-full font-serif text-lg hover:bg-ink-black transition-colors shadow-[4px_4px_0_0_#1A1018] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_#1A1018]">
-                        <Instagram size={20} /> follow @beam.umn
-                    </a>
+                <div className="events-header flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 border-b-2 border-ink-black pb-4 gap-4 md:gap-6">
+                    <h2 className="font-serif text-4xl md:text-7xl text-center md:text-left">Events</h2>
                 </div>
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-                    {feed.length > 0 ? feed.map((post, i) => (
-                        <a key={i} href={post.permalink} target="_blank" rel="noreferrer" className="feed-item block relative aspect-[4/5] overflow-hidden group riso-card">
-                            <img src={post.mediaUrl} alt={post.caption || "Instagram Post"} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[30%] contrast-125 sepia-[20%] group-hover:grayscale-0 group-hover:sepia-0" />
-                            <div className="absolute inset-0 bg-ink-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-                                <p className="relative z-10 text-white font-body text-sm line-clamp-3 mb-4">{post.caption}</p>
-                                <ArrowUpRight className="relative z-10 text-white" size={24} />
+                <div className="grid grid-cols-3 gap-4 md:gap-8">
+                    {[...eventData].reverse().map((event, i) => (
+                        <RouterLink
+                            key={i}
+                            to={`/event/${event.id}`}
+                            className="event-item group block relative flex flex-col riso-card bg-cream hover:-translate-y-2 transition-transform duration-300 overflow-hidden"
+                        >
+                            <div className="aspect-[4/5] bg-[#1a0b2e] overflow-hidden relative border-b-2 border-ink-black">
+                                <div
+                                    className="absolute inset-0 opacity-40 blur-xl scale-110"
+                                    style={{ backgroundImage: `url(${event.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                                ></div>
+                                <img
+                                    src={event.image}
+                                    alt={event.title}
+                                    className="relative z-10 w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                                />
                             </div>
-                        </a>
-                    )) : (
-                        [...Array(4)].map((_, i) => (
-                            <div key={i} className="aspect-[4/5] bg-cream riso-card animate-pulse"></div>
-                        ))
-                    )}
+                            <div className="p-2 sm:p-4 md:p-8 flex flex-col flex-grow text-left">
+                                <h3 className="font-serif text-[11px] sm:text-sm md:text-3xl mb-1 md:mb-3 group-hover:text-riso-purple transition-colors leading-tight line-clamp-2 md:line-clamp-none">{event.title}</h3>
+                                <div className="font-serif italic text-riso-purple/80 text-[9px] sm:text-xs md:text-base mb-1 md:mb-4 space-y-0.5 md:space-y-1">
+                                    <p className="line-clamp-1 truncate">{event.date.split(',')[1]?.trim() || event.date}</p>
+                                    <p className="hidden md:block">{event.time}</p>
+                                    <p className="hidden md:block">{event.location}</p>
+                                </div>
+                                <p className="hidden md:block font-body text-base md:text-lg text-ink-black/80 leading-relaxed mt-auto line-clamp-2">{event.description}</p>
+                                <div className="hidden md:flex mt-6 items-center text-riso-purple font-serif italic gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span>View Details</span>
+                                    <ArrowRight size={18} />
+                                </div>
+                            </div>
+                        </RouterLink>
+                    ))}
                 </div>
             </div>
         </section>
