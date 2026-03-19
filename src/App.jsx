@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Instagram, ArrowUpRight, ArrowRight, Mail, Menu, X } from 'lucide-react';
@@ -12,10 +13,13 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/event/:eventId" element={<EventDetail />} />
-            </Routes>
+            <>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/event/:eventId" element={<EventDetail />} />
+                </Routes>
+                <Analytics />
+            </>
         </Router>
     );
 }
