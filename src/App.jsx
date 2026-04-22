@@ -521,10 +521,21 @@ function Hero() {
         setLoading(true);
         setError(null);
 
+        const normalizedEmail = email.trim().toLowerCase();
+
+        if (!normalizedEmail) {
+            setError("Please enter a valid email address.");
+            setLoading(false);
+            return;
+        }
+
         try {
             const { error: sbError } = await supabase
                 .from('mailing_list')
-                .insert([{ email }]);
+                .upsert([{ email: normalizedEmail }], {
+                    onConflict: 'email',
+                    ignoreDuplicates: true
+                });
 
             if (sbError) throw sbError;
 
@@ -532,9 +543,13 @@ function Hero() {
             setEmail("");
         } catch (err) {
             console.error('Error submitting to mailing list:', err);
-            setError("Something went wrong. Please try again.");
-            // Even if there's an error, we might want to pretend it worked for UX 
-            // but let's be honest for now.
+            if (err?.code === '23505') {
+                setSubmitted(true);
+                setEmail("");
+                return;
+            }
+
+            setError("We couldn't add you right now. Please try again in a moment.");
         } finally {
             setLoading(false);
         }
